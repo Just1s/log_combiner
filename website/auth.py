@@ -10,6 +10,8 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """ Funkcija vartotojo prisijungimui.
+        Iš formos paimami vartotojo įvesti duomenys ir jei duomenys teisingi vartotojas prisijungiamas. """
     if request.method == 'POST':
         nickname = request.form.get('nickname')
         password = request.form.get('password')
@@ -30,12 +32,15 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    """ Funkcija prisijungusiam vartotojui atsijungti iš svetainės. """
     logout_user()
     return redirect(url_for('auth.login'))
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    """ Funkcija naujo vartotojo sūkurimui. Paima vartotojo suvestus duomenis iš formos, juos patikrina
+        ir jei viskas gerai išsaugo naujo vartotojo duomenis duombazėje. """
     if request.method == 'POST':
         email = request.form.get('email')
         nickname = request.form.get('nickname')

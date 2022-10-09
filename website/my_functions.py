@@ -7,6 +7,8 @@ from zipfile import ZipFile
 
 
 def check_links(logs):
+    """ Funkcija gauna mačų statistikos puslapių nuorodas,
+        jei nuorodos tikamos naudojant API gražinami mačų duomenys. """
     links_ok = False
     stats = []
     for log in logs:
@@ -25,6 +27,8 @@ def check_links(logs):
 
 
 def remove_keys(p_stats):
+    """ Funkcija iš mačų duomenų pašalinti žaidėjam neaktualias statistikos kategorijas ir
+        gražinti duomenis tik su aktualiom kategorijom. """
     unneeded_keys = ['class_stats', 'suicides', 'medicstats', 'dmg_real', 'dt_real', 'lks', 'as', 'dapd', 'dapm',
                      "ubertypes", "drops", "medkits", "medkits_hp", "backstabs", "headshots", "headshots_hit",
                      "sentries", "heal", "cpc", "ic"]
@@ -37,6 +41,8 @@ def remove_keys(p_stats):
 
 
 def fix_kapd(p_stats):
+    """ Funkcija perskaičuoti KA/D ir K/D kategorijų duomenis, nes juos skaičiuojant naudojama dalyba,
+        todėl sudėjus kategorijų duomenis jie būtų neteisingi. """
     for player in p_stats:
         p_stats[player]['kapd'] = round(
             (p_stats[player]['kills'] + p_stats[player]['assists']) / p_stats[player]['deaths'], 2)
@@ -45,6 +51,8 @@ def fix_kapd(p_stats):
 
 
 def make_df(stats, names):
+    """ Funkcija iš json formatu gautos statistikos padaryti pandas dataframe ir vietoj statistikoje esančių
+        žaidėjų steamID įrašyti jų slapyvardžius. """
     df = pd.DataFrame(stats).transpose()
     df.rename(index=names, inplace=True)
     cols = df.columns.tolist()
@@ -55,6 +63,7 @@ def make_df(stats, names):
 
 
 def combine_stats(p_stats, p_stats2):
+    """ Funkcija sujungti dviejų mačų duomenis į vieną bendrą. """
     for player, stats in p_stats2.items():
         for stat, value in stats.items():
             if isinstance(value, int):
@@ -63,6 +72,7 @@ def combine_stats(p_stats, p_stats2):
 
 
 def etf2l_data(steamid):
+    """ Funkcija gauna vartotojo įvestą steamID ir jį panaudijant grąžina žaidėjo lygos avatar'ą ir lygos ID. """
     try:
         r = requests.get(f'https://api.etf2l.org/player/{steamid}.json')
         info = json.loads(r.text)
@@ -77,6 +87,7 @@ def etf2l_data(steamid):
 
 
 def get_logs_ids(logs):
+    """ Funkcija iš duotų nuorodų iškirpti tik Logs.tf mačo statistikos ID. """
     logs_ids = []
     for log in logs:
         logs_ids.append(log[log.find('tf/')+3:])
@@ -84,6 +95,7 @@ def get_logs_ids(logs):
 
 
 def combine_logs_files(logs_ids):
+    """ Funkcija gavus mačų statistikos ID atsiunčia mačų .log failus ir sujungti juos į vieną. """
     path = './website/log_files/'
     log_file = f'{logs_ids[0]}.log'
     full_path = os.path.join(path, log_file)

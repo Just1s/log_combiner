@@ -4,6 +4,7 @@ from wtforms.validators import Optional, Length, InputRequired
 
 
 class EditProfileForm(FlaskForm):
+    """ Vartotojo duomenų keitimo formos modelis. """
     email = EmailField('Email', validators=[Optional(), Length(min=4, max=50)])
     nickname = StringField('Nickname', validators=[Optional(), Length(min=3, max=50)])
     api_key = StringField('Logs.tf API key', validators=[Optional(), Length(min=4, max=50)])
@@ -15,6 +16,7 @@ class EditProfileForm(FlaskForm):
 
 
 class UploadLogForm(FlaskForm):
+    """ Mačų statistikos įkėlimo į Logs.tf puslapį formos modelis. """
     title = StringField('Title', validators=[InputRequired(), Length(min=1, max=40)])
     maps = StringField('Maps(optional)', validators=[Optional(), Length(max=24)])
     api_key = StringField('Logs.tf API key', validators=[InputRequired(), Length(min=4, max=50)])

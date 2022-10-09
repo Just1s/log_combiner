@@ -16,6 +16,7 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    """ Funkcija sujungia diejų mačų statistikas į vieną bendrą ir išsaugo duombazėje. """
     if request.method == 'POST':
         logs = [request.form.get('log1'), request.form.get('log2')]
         title = request.form.get('title')
@@ -50,6 +51,7 @@ def home():
 @views.route('/combined_log/<combine_id>')
 @login_required
 def combined_log(combine_id):
+    """ Funkcija atvaizduoti pasirinktą mačų statistiką. """
     combine = Combine.query.get(combine_id)
     if combine.user_id != current_user.id:
         return redirect(url_for('views.home'))
@@ -68,12 +70,14 @@ def combined_log(combine_id):
 @views.route('/combined_logs')
 @login_required
 def combined_logs():
+    """ Funkcija atvaizduoti sąrašą visų vartotojo sujungtų statistikų. """
     return render_template('combined_logs.html', user=current_user)
 
 
 @views.route('/combined_log/delete/<combine_id>', methods=['GET', 'POST'])
 @login_required
 def delete_combine(combine_id):
+    """ Funkcija ištrinti pasirinktą mačų statistiką. """
     combine = Combine.query.get(combine_id)
     if combine.user_id != current_user.id:
         flash('Combined log deleted.', category='success')
@@ -101,6 +105,7 @@ def delete_combine(combine_id):
 @views.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
+    """ Funkcija keisti vartotojo duomenims. """
     form = EditProfileForm(obj=current_user)
     if form.validate_on_submit():
         if check_password_hash(current_user.password, form.password.data):
@@ -135,6 +140,7 @@ def profile():
 @views.route('/upload/<combine_id>', methods=['GET', 'POST'])
 @login_required
 def upload(combine_id):
+    """ Funkcija sujungtai mačų statistikai įkelti į Logs.tf puslapį. """
     combine = Combine.query.get(combine_id)
     if combine.user_id != current_user.id:
         return redirect(url_for('views.home'))

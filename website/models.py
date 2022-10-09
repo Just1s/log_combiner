@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 
 
 class User(db.Model, UserMixin):
+    """ Lentelės modelis vartotojų duomenims saugoti. """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True)
     nickname = db.Column(db.String(50), unique=True)
@@ -16,6 +17,7 @@ class User(db.Model, UserMixin):
 
 
 class Combine(db.Model):
+    """ Lentelės modelis log failų sujungimo duomenim saugoti. """
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
@@ -27,6 +29,7 @@ class Combine(db.Model):
 
 
 class Logs(db.Model):
+    """ Lentelės modelis sujungtiems duomenims saugoti. """
     id = db.Column(db.Integer, primary_key=True)
     combine_id = db.Column(db.Integer, db.ForeignKey('combine.id'))
     index = db.Column(db.String(100))
