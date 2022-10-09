@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<br>
+<h1 align="center">Upload to Logs.tf</h1>
+<br>
+<form class="text-center">
+  <a class="btn text-dark">{{ combine.date }}</a>
+  <a class="btn text-dark font-weight-bold">{{ combine.title }}</a>
+  <a class="btn text-primary" href="{{ combine.log1 }}" target="_blank" rel="noopener noreferrer">{{ combine.log1 }}</a>
+  <a class="btn text-primary" href="{{ combine.log2 }}" target="_blank" rel="noopener noreferrer">{{ combine.log2 }}</a>
+</form>
+<br>
+<div class="text-center">
+  <form method="POST" action="{{ url_for('views.upload', combine_id=combine.id) }}" class="justify-content-between">
+    {{ form.csrf_token }}
+    <div class="d-flex justify-content-around">
+        <fieldset class="form-field">
+          {{ form.title.label }}
+            <br>
+          {{ form.title(size=40, class="mb-3") }}
+
+            {% if form.title.errors %}
+            <ul class="errors">
+              {% for error in form.title.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+        </fieldset>
+        <fieldset class="form-field">
+          {{ form.maps.label }}
+            <br>
+          {{ form.maps(size=40, class="mb-3") }}
+
+            {% if form.maps.errors %}
+            <ul class="errors">
+              {% for error in form.maps.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+        </fieldset>
+      <fieldset class="form-field">
+          {{ form.api_key.label }}
+            <br>
+          {{ form.api_key(size=40, class="mb-3") }}
+
+            {% if form.api_key.errors %}
+            <ul class="errors">
+              {% for error in form.api_key.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+        </fieldset>
+    </div>
+    <a href="javascript:window.history.back();" class="btn btn-secondary">Back</a>
+    {{ form.submit(class="btn btn-success ml-5") }}
+  </form>
+</div>
+
+
+{% endblock %}

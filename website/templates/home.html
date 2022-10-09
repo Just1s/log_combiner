@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<br>
+<h1 align="center">Combine logs</h1>
+
+<form method="POST">
+  <div class="form-group">
+    <label for="log1">First log link</label>
+    <input type="text" class="form-control" id="log1" name="log1">
+  </div>
+  <div class="form-group">
+    <label for="log2">Second log link</label>
+    <input type="text" class="form-control" id="log2" name="log2">
+  </div>
+  <div class="form-group">
+    <label for="title">Combined log title</label>
+    <input type="text" class="form-control" id="title" name="title">
+  </div>
+  <br>
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Combine</button>
+  </div>
+</form>
+
+{% endblock %}

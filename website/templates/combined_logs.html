@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<br>
+<h1 align="center">Your combined logs</h1>
+<br>
+{% if not user.combine %}
+<h3 align="center">You haven't combined any logs.</h3>
+{% endif %}
+<ul class="list-group" id="combined_logs">
+  {% for combine in user.combine %}
+    <form action="/combined_log/{{ combine.id }}" class="list-group-item list-group-item-action">
+      <a class="btn text-dark">{{ combine.date }}</a>
+      <a class="btn text-dark font-weight-bold">{{ combine.title }}</a>
+      <a class="btn text-primary" href="{{ combine.log1 }}" target="_blank" rel="noopener noreferrer">{{ combine.log1 }}</a>
+      <a class="btn text-primary" href="{{ combine.log2 }}" target="_blank" rel="noopener noreferrer">{{ combine.log2 }}</a>
+      <a href="{{ url_for('views.delete_combine', combine_id=combine.id) }}" style="float: right" class="btn btn-danger text-white">Delete</a>
+      <button style="float: right" type="submit" class="btn btn-primary mr-2">View</button>
+      {% if combine.uploaded_log %}
+        <a class="btn btn-secondary text-white mr-2"
+           href="{{ combine.uploaded_log }}" style="float: right"
+           target="_blank" rel="noopener noreferrer">Logs.tf page</a>
+      {% endif %}
+    </form>
+  {% endfor %}
+</ul>
+
+{% endblock %}

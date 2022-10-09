@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/combined_logs.css') }}">
+<br>
+<h1 align="center">Combined stats</h1>
+<br>
+<h2 align="center">{{ combine.title }}</h2>
+<form>
+  <a href="javascript:window.history.back();" class="btn btn-secondary">Back</a>
+  {% if combine.uploaded_log %}
+    <a href="{{ url_for('views.upload', combine_id=combine.id) }}" class="btn btn-success disabled float-right">Already uploaded</a>
+  {% else %}
+    <a href="{{ url_for('views.upload', combine_id=combine.id) }}" class="btn btn-success float-right">Upload to Logs.tf</a>
+  {% endif %}
+  <a href="{{ url_for('views.delete_combine', combine_id=combine_id) }}" class="btn btn-danger text-white float-right mr-5">Delete</a>
+</form>
+{% for table in tables %}
+  {{ table|safe }}
+{% endfor %}
+<br>
+
+
+{% endblock %}
